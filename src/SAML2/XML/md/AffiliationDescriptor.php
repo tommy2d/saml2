@@ -91,7 +91,7 @@ final class AffiliationDescriptor extends AbstractMetadataDocument
         Assert::same($xml->namespaceURI, AffiliationDescriptor::NS, InvalidDOMElementException::class);
 
         $owner = self::getAttribute($xml, 'affiliationOwnerID');
-        $members = XMLUtils::extractStrings($xml, Constants::NS_MD, 'AffiliateMember');
+        $members = AffiliateMember::getChildrenOfClass($xml);
         $keyDescriptors = KeyDescriptor::getChildrenOfClass($xml);
 
         $validUntil = self::getAttribute($xml, 'validUntil', null);
