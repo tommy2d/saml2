@@ -26,7 +26,7 @@ abstract class AbstractLocalizedURI extends AbstractLocalizedName
         parent::validateContent($content);
 
         if (!filter_var($content, FILTER_VALIDATE_URL)) {
-            throw new InvalidArgumentException(static::getQualifiedName() . ' is not a valid URL.');
+            throw new InvalidArgumentException(static::getNamespacePrefix() . ':' . static::getLocalName() . ' is not a valid URL.');
         }
     }
 }
