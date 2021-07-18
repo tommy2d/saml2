@@ -14,6 +14,7 @@ use SimpleSAML\SAML2\XML\saml\AttributeValue;
 use SimpleSAML\SAML2\XML\saml\AuthnContext;
 use SimpleSAML\SAML2\XML\saml\AuthnContextClassRef;
 use SimpleSAML\SAML2\XML\saml\AuthnContextDeclRef;
+use SimpleSAML\SAML2\XML\saml\Audience;
 use SimpleSAML\SAML2\XML\saml\AudienceRestriction;
 use SimpleSAML\SAML2\XML\saml\Conditions;
 use SimpleSAML\SAML2\XML\saml\Issuer;
@@ -73,7 +74,7 @@ final class EntityAttributesTest extends TestCase
             null,
             null,
             [],
-            [new AudienceRestriction(['audience1', 'audience2'])]
+            [new AudienceRestriction([new Audience('audience1'), new Audience('audience2')])]
         );
 
         // Create the statements
@@ -141,7 +142,7 @@ final class EntityAttributesTest extends TestCase
         $entityAttributes->addChild($signedAssertion);
         $entityAttributes->addChild($attribute2);
 
-        $this->assertEquals($this->document->saveXML($this->document->documentElement), strval($entityAttributes));
+        $this->assertEquals($this->xmlRepresentation->saveXML($this->xmlRepresentation->documentElement), strval($entityAttributes));
     }
 
 
@@ -166,18 +167,6 @@ final class EntityAttributesTest extends TestCase
         $this->assertEquals('urn:simplesamlphp:v1:simplesamlphp', $entityAttributes->getChildren()[2]->getName());
         $this->assertEquals('urn:oasis:names:tc:SAML:2.0:attrname-format:uri', $entityAttributes->getChildren()[2]->getNameFormat());
         $this->assertCount(3, $entityAttributes->getChildren()[2]->getAttributeValues());
-    }
-
-
-    /**
-     * Test serialization / unserialization
-     */
-    public function testSerialization(): void
-    {
-        $this->assertEquals(
-            $this->document->saveXML($this->document->documentElement),
-            strval(unserialize(serialize(EntityAttributes::fromXML($this->document->documentElement))))
-        );
     }
 }
 
