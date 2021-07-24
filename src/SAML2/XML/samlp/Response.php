@@ -8,6 +8,7 @@ use DOMElement;
 use SimpleSAML\Assert\Assert;
 use SimpleSAML\SAML2\Constants;
 use SimpleSAML\SAML2\Exception\ProtocolViolationException;
+use SimpleSAML\SAML2\Utils\XPath;
 use SimpleSAML\SAML2\XML\saml\Assertion;
 use SimpleSAML\SAML2\XML\saml\EncryptedAssertion;
 use SimpleSAML\SAML2\XML\saml\Issuer;
@@ -188,7 +189,7 @@ class Response extends AbstractStatusResponse
         }
 
         // Test for an Issuer
-        $responseElements = XMLUtils::xpQuery($e, './saml_assertion:Issuer');
+        $responseElements = XPath::xpQuery($e, './saml_assertion:Issuer', XPath::getXPath($e));
         $issuer = empty($responseElements) ? null : $responseElements[0];
 
         if ($this->signingKey !== null) {
