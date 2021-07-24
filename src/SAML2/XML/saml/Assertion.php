@@ -48,6 +48,9 @@ class Assertion extends AbstractSamlElement implements SignableElementInterface,
      */
     protected string $id;
 
+    /** @var \DOMElement $xml */
+    protected DOMElement $xml;
+
     /**
      * The issue timestamp of this assertion, as an UNIX timestamp.
      *
@@ -363,6 +366,37 @@ class Assertion extends AbstractSamlElement implements SignableElementInterface,
 
 
     /**
+     * Get the XML element.
+     *
+     * @return \DOMElement
+     */
+    public function getXML(): DOMElement
+    {
+        return $this->xml;
+    }
+
+
+    /**
+     * Set the XML element.
+     *
+     * @param \DOMElement $xml
+     */
+    private function setXML(DOMElement $xml): void
+    {
+        $this->xml = $xml;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getOriginalXML(): DOMElement
+    {
+        return $this->xml;
+    }
+
+
+    /**
      * Convert XML into an Assertion
      *
      * @param \DOMElement $xml The XML element we should load
@@ -416,6 +450,7 @@ class Assertion extends AbstractSamlElement implements SignableElementInterface,
             $assertion->wasSignedAtConstruction = true;
         }
 
+        $assertion->setXML($xml);
         return $assertion;
     }
 

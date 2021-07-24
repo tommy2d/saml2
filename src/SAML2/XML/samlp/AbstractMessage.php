@@ -45,6 +45,9 @@ abstract class AbstractMessage extends AbstractSamlpElement implements SignableE
      */
     protected string $id;
 
+    /** @var \DOMElement $xml */
+    protected DOMElement $xml;
+
     /**
      * The version of this message.
      *
@@ -389,6 +392,37 @@ abstract class AbstractMessage extends AbstractSamlpElement implements SignableE
         if ($this->validateEnvelopedXmlSignature($key) === false) {
             throw new Exception('No enveloped signature found');
         }
+    }
+
+
+    /**
+     * Get the XML element.
+     *
+     * @return \DOMElement
+     */
+    public function getXML(): DOMElement
+    {
+        return $this->xml;
+    }
+
+
+    /**
+     * Set the XML element.
+     *
+     * @param \DOMElement $xml
+     */
+    protected function setXML(DOMElement $xml): void
+    {
+        $this->xml = $xml;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getOriginalXML(): DOMElement
+    {
+        return $this->xml;
     }
 
 

@@ -154,6 +154,7 @@ class ArtifactResponse extends AbstractStatusResponse
             $response->setSignature($signature[0]);
         }
 
+        $response->setXML($xml);
         return $response;
     }
 

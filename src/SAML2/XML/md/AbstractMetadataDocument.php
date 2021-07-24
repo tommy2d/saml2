@@ -3,8 +3,8 @@
 namespace SimpleSAML\SAML2\XML\md;
 
 use DOMElement;
-use SimpleSAML\XML\ExtendableAttributesTrait;
 use SimpleSAML\SAML2\XML\ExtendableElementTrait;
+use SimpleSAML\XML\ExtendableAttributesTrait;
 
 use function gmdate;
 
@@ -23,7 +23,10 @@ abstract class AbstractMetadataDocument extends AbstractSignedMdElement
      *
      * @var string|null
      */
-    protected ?string $ID;
+    protected ?string $Id;
+
+    /** @var \DOMElement $xml */
+    protected DOMElement $xml;
 
     /**
      * How long this element is valid, as a unix timestamp.
@@ -69,9 +72,9 @@ abstract class AbstractMetadataDocument extends AbstractSignedMdElement
      *
      * @return string|null
      */
-    public function getID()
+    public function getID(): ?string
     {
-        return $this->ID;
+        return $this->Id;
     }
 
 
@@ -82,7 +85,7 @@ abstract class AbstractMetadataDocument extends AbstractSignedMdElement
      */
     protected function setID(?string $id): void
     {
-        $this->ID = $id;
+        $this->Id = $id;
     }
 
 
@@ -131,6 +134,37 @@ abstract class AbstractMetadataDocument extends AbstractSignedMdElement
 
 
     /**
+     * Get the XML element.
+     *
+     * @return \DOMElement
+     */
+    public function getXML(): DOMElement
+    {
+        return $this->xml;
+    }
+
+
+    /**
+     * Set the XML element.
+     *
+     * @param \DOMElement $xml
+     */
+    protected function setXML(DOMElement $xml): void
+    {
+        $this->xml = $xml;
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    protected function getOriginalXML(): DOMElement
+    {
+        return $this->xml;
+    }
+
+
+    /**
      * @param \DOMElement|null $parent
      *
      * @return \DOMElement
@@ -143,8 +177,8 @@ abstract class AbstractMetadataDocument extends AbstractSignedMdElement
             $e->setAttributeNS($attr['namespaceURI'], $attr['qualifiedName'], $attr['value']);
         }
 
-        if ($this->ID !== null) {
-            $e->setAttribute('ID', $this->ID);
+        if ($this->Id !== null) {
+            $e->setAttribute('ID', $this->Id);
         }
 
         if ($this->validUntil !== null) {

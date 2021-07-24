@@ -221,6 +221,7 @@ class LogoutRequest extends AbstractRequest
             $request->messageContainedSignatureUponConstruction = true;
         }
 
+        $request->setXML($xml);
         return $request;
     }
 

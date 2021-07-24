@@ -6,9 +6,9 @@ namespace SimpleSAML\SAML2\Signature;
 
 use Exception;
 use Psr\Log\LoggerInterface;
-use SimpleSAML\SAML2\XML\SignedElementInterface;
 use SimpleSAML\SAML2\Utilities\ArrayCollection;
 use SimpleSAML\XMLSecurity\Utils\Security;
+use SimpleSAML\XMLSecurity\XML\SignedElementInterface;
 use SimpleSAML\XMLSecurity\XMLSecurityKey;
 
 use function sprintf;

@@ -509,6 +509,7 @@ class AuthnRequest extends AbstractRequest
             $request->messageContainedSignatureUponConstruction = true;
         }
 
+        $request->setXML($xml);
         return $request;
     }
 
