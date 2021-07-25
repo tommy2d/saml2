@@ -35,7 +35,7 @@ abstract class AbstractChainedValidator implements ChainedValidator
     /**
      * BC compatible version of the signature check
      *
-     * @param \SimpleSAML\SAML2\XML\SignedElementInterface    $element
+     * @param \SimpleSAML\XMLSecurity\XML\SignedElementInterface    $element
      * @param \SimpleSAML\SAML2\Utilities\ArrayCollection $pemCandidates
      *
      * @throws \Exception
