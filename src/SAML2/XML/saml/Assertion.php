@@ -393,7 +393,7 @@ class Assertion extends AbstractSamlElement implements SignableElementInterface,
      */
     protected function getOriginalXML(): DOMElement
     {
-        return $this->xml;
+        return $this->xml ?? $this->toXML();
     }
 
 
