@@ -181,6 +181,12 @@ final class KeyDescriptor extends AbstractMdElement
             $em->toXML($e);
         }
 
+        if ($this->signer !== null) {
+            $signedXML = $this->doSign($e);
+            $signedXML->insertBefore($this->signature->toXML($signedXML), $signedXML->firstChild);
+            return $signedXML;
+        }
+
         return $e;
     }
 }
