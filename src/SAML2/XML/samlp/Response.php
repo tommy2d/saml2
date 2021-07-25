@@ -178,6 +178,7 @@ class Response extends AbstractStatusResponse
     /**
      * Convert the response message to an XML element.
      *
+     * @param \DOMElement|null $parent
      * @return \DOMElement This response.
      */
     protected function toUnsignedXML(?DOMElement $parent = null): DOMElement
