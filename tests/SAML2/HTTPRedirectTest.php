@@ -8,6 +8,7 @@ use Exception;
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use PHPUnit\Framework\Error\Warning;
 use SimpleSAML\XML\DOMDocumentFactory;
+use SimpleSAML\SAML2\Constants as C;
 use SimpleSAML\SAML2\HTTPRedirect;
 use SimpleSAML\SAML2\XML\saml\Issuer;
 use SimpleSAML\SAML2\XML\samlp\AbstractRequest;
@@ -16,6 +17,8 @@ use SimpleSAML\SAML2\XML\samlp\Response;
 use SimpleSAML\SAML2\XML\samlp\Status;
 use SimpleSAML\SAML2\XML\samlp\StatusCode;
 use SimpleSAML\XMLSecurity\TestUtils\PEMCertificatesMock;
+use SimpleSAML\XMLSecurity\Alg\Signature\SignatureAlgorithmFactory;
+use SimpleSAML\XMLSecurity\Key\PrivateKey;
 use SimpleSAML\XMLSecurity\XMLSecurityKey;
 
 /**
@@ -232,8 +235,16 @@ final class HTTPRedirectTest extends MockeryTestCase
         $issuer = new Issuer('testIssuer');
 
         $response = new Response($status, $issuer, null, null, null, 'http://example.org/login?success=yes');
-        $response->setRelayState('http://example.org');
-        $response->setSigningKey(PEMCertificatesMock::getPrivateKey(XMLSecurityKey::RSA_SHA256, PEMCertificatesMock::SELFSIGNED_PRIVATE_KEY));
+
+        // Sign the response
+        $key = new PrivateKey(
+            PEMCertificatesMock::getPlainPrivateKey(PEMCertificatesMock::SELFSIGNED_PRIVATE_KEY)
+        );
+
+        $factory = new SignatureAlgorithmFactory();
+        $signer = $factory->getAlgorithm(C::SIG_RSA_SHA256, $key);
+        $response->sign($signer);
+
         $hr = new HTTPRedirect();
         $hr->send($response);
     }
